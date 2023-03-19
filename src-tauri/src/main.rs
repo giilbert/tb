@@ -1,15 +1,61 @@
-// Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-#[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
+use tokio::{fs::try_exists, net::UnixDatagram};
 
-fn main() {
+fn run_application() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        .invoke_handler(tauri::generate_handler![])
+        .on_page_load(|window, _| {
+            let _: tokio::task::JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
+                tokio::fs::remove_file("/tmp/tb.sock").await?;
+
+                let sock = UnixDatagram::bind("/tmp/tb.sock")?;
+
+                let buf = &mut [0; 1024];
+
+                loop {
+                    let length = sock.recv(buf).await?;
+                    if length > 0 {
+                        window.show()?;
+                    }
+                }
+
+                // Ok::<_, anyhow::Error>(())
+            });
+        })
+        .on_window_event(|event| {
+            if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
+                api.prevent_close();
+                event.window().hide().expect("unable to hide window");
+            }
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
+}
+
+/// returns Ok(false) if the application is already running and successfully opened
+/// returns Ok(true) if the application is not running
+/// returns Err if there was an error
+async fn open_existing_application() -> anyhow::Result<bool> {
+    if !try_exists("/tmp/tb.sock").await? {
+        return Ok(true);
+    }
+
+    let socket = UnixDatagram::unbound()?;
+    if socket.connect("/tmp/tb.sock").is_err() {
+        return Ok(true);
+    }
+
+    socket.send(b"open sesame").await.unwrap();
+
+    return Ok(false);
+}
+
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
+    if open_existing_application().await? {
+        run_application();
+    }
+
+    Ok(())
 }

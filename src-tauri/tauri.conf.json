@@ -47,9 +47,9 @@
         "resizable": false,
         "decorations": false,
         "transparent": true,
-        "alwaysOnTop": true,
+        "alwaysOnTop": false,
         "title": "tb",
-        "width": 800,
+        "width": 900,
         "height": 600
       }
     ]
