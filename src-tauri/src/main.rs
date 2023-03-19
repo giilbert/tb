@@ -2,14 +2,20 @@
 
 use tokio::{fs::try_exists, net::UnixDatagram};
 
+const SOCKET_PATH: &str = if cfg!(debug_assertions) {
+    "/tmp/tb-debug.sock"
+} else {
+    "/tmp/tb.sock"
+};
+
 fn run_application() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![])
         .on_page_load(|window, _| {
             let _: tokio::task::JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
-                tokio::fs::remove_file("/tmp/tb.sock").await?;
+                let _ = tokio::fs::remove_file(SOCKET_PATH).await;
 
-                let sock = UnixDatagram::bind("/tmp/tb.sock")?;
+                let sock = UnixDatagram::bind(SOCKET_PATH)?;
 
                 let buf = &mut [0; 1024];
 
@@ -37,12 +43,12 @@ fn run_application() {
 /// returns Ok(true) if the application is not running
 /// returns Err if there was an error
 async fn open_existing_application() -> anyhow::Result<bool> {
-    if !try_exists("/tmp/tb.sock").await? {
+    if !try_exists(SOCKET_PATH).await? {
         return Ok(true);
     }
 
     let socket = UnixDatagram::unbound()?;
-    if socket.connect("/tmp/tb.sock").is_err() {
+    if socket.connect(SOCKET_PATH).is_err() {
         return Ok(true);
     }
 

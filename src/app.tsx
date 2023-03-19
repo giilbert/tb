@@ -1,11 +1,34 @@
-import { createRef, useEffect } from "react";
+import { createRef, useEffect, useRef } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 
 export const App: React.FC = () => {
   const inputRef = createRef<HTMLInputElement>();
 
   useEffect(() => {
-    inputRef.current?.focus();
+    const windowOpenHandler = () => {
+      inputRef.current?.focus();
+    };
+
+    const keyboardHandler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        windowCloseHandler();
+        appWindow.hide();
+      }
+    };
+
+    const windowCloseHandler = () => {
+      if (inputRef.current) inputRef.current.value = "";
+    };
+
+    window.addEventListener("keydown", keyboardHandler);
+    window.addEventListener("focus", windowOpenHandler);
+    window.addEventListener("blur", windowCloseHandler);
+
+    return () => {
+      window.removeEventListener("keydown", keyboardHandler);
+      window.removeEventListener("focus", windowOpenHandler);
+      window.removeEventListener("blur", windowCloseHandler);
+    };
   }, []);
 
   return (
@@ -15,7 +38,7 @@ export const App: React.FC = () => {
         ref={inputRef}
       />
       <div className="p-4">
-        <h1 className="text-4xl font-semibold">Hello</h1>
+        <h1 className="text-4xl font-semibold">asdasdsdasdasd</h1>
 
         <button
           onClick={() => {
