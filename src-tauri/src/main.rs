@@ -17,6 +17,13 @@ fn run_application() {
             api::applications::get_all_applications,
             api::applications::launch_application,
         ])
+        .setup(|app| {
+            let window = app.get_window("main").unwrap();
+            if cfg!(not(debug_assertions)) {
+                let _ = window.set_always_on_top(true);
+            }
+            Ok(())
+        })
         .on_page_load(|window, _| {
             let _: tokio::task::JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
                 let _ = tokio::fs::remove_file(SOCKET_PATH).await;
