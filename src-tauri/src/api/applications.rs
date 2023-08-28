@@ -31,6 +31,7 @@ pub fn get_all_applications() -> Vec<AppInfo> {
         })
         .collect::<Vec<_>>();
     info.sort_by(|a, b| a.display_name.cmp(&b.display_name));
+    info.dedup_by(|a, b| a.display_name == b.display_name);
     info
 }
 
