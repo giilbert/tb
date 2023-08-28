@@ -1,5 +1,8 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod api;
+
+use tauri::Manager;
 use tokio::{fs::try_exists, net::UnixDatagram};
 
 const SOCKET_PATH: &str = if cfg!(debug_assertions) {
@@ -10,7 +13,10 @@ const SOCKET_PATH: &str = if cfg!(debug_assertions) {
 
 fn run_application() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![])
+        .invoke_handler(tauri::generate_handler![
+            api::applications::get_all_applications,
+            api::applications::launch_application,
+        ])
         .on_page_load(|window, _| {
             let _: tokio::task::JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
                 let _ = tokio::fs::remove_file(SOCKET_PATH).await;
@@ -30,6 +36,10 @@ fn run_application() {
             });
         })
         .on_window_event(|event| {
+            if cfg!(debug_assertions) {
+                return;
+            }
+
             if let tauri::WindowEvent::CloseRequested { api, .. } = event.event() {
                 api.prevent_close();
                 event.window().hide().expect("unable to hide window");

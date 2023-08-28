@@ -12,13 +12,10 @@
   },
   "tauri": {
     "allowlist": {
-      "all": false,
-      "shell": {
-        "all": false,
-        "open": true
-      },
-      "window": {
-        "all": true
+      "all": true,
+      "protocol": {
+        "asset": true,
+        "assetScope": ["**", "**/*", "/**/*", "$HOME/**", "$LOCALDATA/**"]
       }
     },
     "bundle": {

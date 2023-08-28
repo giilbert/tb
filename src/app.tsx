@@ -1,7 +1,10 @@
-import { createRef, useEffect, useRef } from "react";
+import { createRef, useEffect, useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
+import { Results } from "./components/results";
+import { Command } from "cmdk";
 
 export const App: React.FC = () => {
+  const [value, setValue] = useState<string>("");
   const inputRef = createRef<HTMLInputElement>();
 
   useEffect(() => {
@@ -12,13 +15,15 @@ export const App: React.FC = () => {
     const keyboardHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         windowCloseHandler();
-        appWindow.hide();
+        if (!import.meta.env.DEV) appWindow.hide();
       }
     };
 
     const windowCloseHandler = () => {
-      if (inputRef.current) inputRef.current.value = "";
+      setValue("");
     };
+
+    windowOpenHandler();
 
     window.addEventListener("keydown", keyboardHandler);
     window.addEventListener("focus", windowOpenHandler);
@@ -33,21 +38,15 @@ export const App: React.FC = () => {
 
   return (
     <>
-      <input
-        className="w-full px-4 py-3 bg-neutral-700/20 text-2xl outline-none"
-        ref={inputRef}
-      />
-      <div className="p-4">
-        <h1 className="text-4xl font-semibold">asdasdsdasdasd</h1>
-
-        <button
-          onClick={() => {
-            appWindow.hide();
-          }}
-        >
-          Hide
-        </button>
-      </div>
+      <Command label="Search">
+        <Command.Input
+          value={value}
+          onValueChange={setValue}
+          className="w-full px-4 py-3 bg-neutral-700/20 text-2xl outline-none"
+          ref={inputRef}
+        />
+        <Results query={value} />
+      </Command>
     </>
   );
 };
