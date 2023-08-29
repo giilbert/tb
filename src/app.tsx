@@ -2,6 +2,8 @@ import { createRef, useEffect, useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { Results } from "./components/results";
 import { Command } from "cmdk";
+import { Link, Route, Router } from "wouter";
+import { CreateTaskPage } from "./pages/todoist/create-task";
 
 export const App: React.FC = () => {
   const [value, setValue] = useState<string>("");
@@ -37,14 +39,22 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <Command label="Search" className="grid grid-rows-[60px,auto]">
-      <Command.Input
-        value={value}
-        onValueChange={setValue}
-        className="w-full px-4 py-3 bg-muted text-2xl outline-none"
-        ref={inputRef}
-      />
-      <Results query={value} />
-    </Command>
+    <>
+      <Route path="/">
+        <Command label="Search" className="grid grid-rows-[60px,auto]">
+          <Command.Input
+            value={value}
+            onValueChange={setValue}
+            className="w-full px-4 py-3 bg-muted text-2xl outline-none"
+            ref={inputRef}
+          />
+          <Results query={value} />
+        </Command>
+      </Route>
+
+      <Route path="/todoist/create-task">
+        <CreateTaskPage />
+      </Route>
+    </>
   );
 };

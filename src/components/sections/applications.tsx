@@ -19,7 +19,11 @@ export const ApplicationsSection: React.FC = () => {
     <Command.Group title="Applications">
       <h2 className="text-muted-foreground ml-4 mb-2">Applications</h2>
 
-      {!applications && <Command.Loading>Loading</Command.Loading>}
+      {!applications && (
+        <Command.Loading>
+          <span className="ml-4">Loading...</span>
+        </Command.Loading>
+      )}
       {applications && (
         <>
           {applications.map(

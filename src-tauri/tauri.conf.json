@@ -16,6 +16,10 @@
       "protocol": {
         "asset": true,
         "assetScope": ["**", "**/*", "/**/*", "$HOME/**", "$LOCALDATA/**"]
+      },
+      "http": {
+        "all": true,
+        "scope": ["https://api.todoist.com/**"]
       }
     },
     "bundle": {
