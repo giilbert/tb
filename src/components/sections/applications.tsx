@@ -17,7 +17,7 @@ export const ApplicationsSection: React.FC = () => {
 
   return (
     <Command.Group title="Applications">
-      <h2 className="text-neutral-300 ml-4 mb-2">Applications</h2>
+      <h2 className="text-muted-foreground ml-4 mb-2">Applications</h2>
 
       {!applications && <Command.Loading>Loading</Command.Loading>}
       {applications && (
@@ -38,7 +38,10 @@ export const ApplicationsSection: React.FC = () => {
                   }}
                 >
                   <img src={app.icon} className="w-6 h-6" />
-                  {app.displayName}
+                  <span>{app.displayName}</span>
+                  <span className="ml-auto text-muted-foreground">
+                    Application
+                  </span>
                 </CommandItem>
               )
           )}

@@ -37,16 +37,14 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <Command label="Search">
-        <Command.Input
-          value={value}
-          onValueChange={setValue}
-          className="w-full px-4 py-3 bg-neutral-700/20 text-2xl outline-none"
-          ref={inputRef}
-        />
-        <Results query={value} />
-      </Command>
-    </>
+    <Command label="Search" className="grid grid-rows-[60px,auto]">
+      <Command.Input
+        value={value}
+        onValueChange={setValue}
+        className="w-full px-4 py-3 bg-muted text-2xl outline-none"
+        ref={inputRef}
+      />
+      <Results query={value} />
+    </Command>
   );
 };

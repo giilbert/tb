@@ -2,10 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #111218ee;
+:root {
+  --foreground: 210 10% 90%;
+  --background: 222 64% 5%;
+  --muted: 218 42.6% 10.5%;
+  --muted-foreground: 215 20.2% 65.1%;
 }
 
-* {
-  color: white;
+body {
+  background-color: hsl(var(--background) / 0.9);
+  color: hsl(var(--foreground));
+}
+
+@layer base {
+  * {
+    @apply border-muted transition-colors;
+  }
 }
