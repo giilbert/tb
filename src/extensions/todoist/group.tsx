@@ -1,9 +1,9 @@
 import { Command } from "cmdk";
-import { CommandItem } from "../cmdk-styled";
 import { PlusSquareIcon } from "lucide-react";
 import { useLocation } from "wouter";
+import { CommandItem } from "../../toolkit/components/command-item";
 
-export const TodoistSection: React.FC = () => {
+export const TodoistGroup: React.FC = () => {
   const [, navigate] = useLocation();
 
   return (

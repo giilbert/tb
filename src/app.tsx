@@ -1,11 +1,14 @@
-import { createRef, useEffect, useState } from "react";
+import { Fragment, createRef, useEffect, useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { Results } from "./components/results";
 import { Command } from "cmdk";
-import { Link, Route, Router } from "wouter";
-import { CreateTaskPage } from "./pages/todoist/create-task";
+import { Route } from "wouter";
+import type { Extension } from "./toolkit";
+import { AppContext } from "./lib/context";
 
-export const App: React.FC = () => {
+export const App: React.FC<{
+  extensions: Extension[];
+}> = ({ extensions }) => {
   const [value, setValue] = useState<string>("");
   const inputRef = createRef<HTMLInputElement>();
 
@@ -39,7 +42,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <AppContext.Provider value={{ extensions }}>
       <Route path="/">
         <Command label="Search" className="grid grid-rows-[60px,auto]">
           <Command.Input
@@ -52,9 +55,15 @@ export const App: React.FC = () => {
         </Command>
       </Route>
 
-      <Route path="/todoist/create-task">
-        <CreateTaskPage />
-      </Route>
-    </>
+      {extensions.map(({ name, pages }) => (
+        <Fragment key={name}>
+          {pages?.map(({ path, component: Component }) => (
+            <Route path={path} key={path}>
+              <Component />
+            </Route>
+          ))}
+        </Fragment>
+      ))}
+    </AppContext.Provider>
   );
 };

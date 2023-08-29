@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Command } from "cmdk";
-import { CommandItem } from "../cmdk-styled";
-import {
-  Application,
-  getAllApplications,
-  launchApplication,
-} from "../../api/applications";
+import { Application, getAllApplications, launchApplication } from "./api";
 import { appWindow } from "@tauri-apps/api/window";
+import { CommandItem } from "../../toolkit/components/command-item";
 
-export const ApplicationsSection: React.FC = () => {
+export const ApplicationsGroup: React.FC = () => {
   const [applications, setApplications] = useState<Application[] | null>(null);
 
   useEffect(() => {

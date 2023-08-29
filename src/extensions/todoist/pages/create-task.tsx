@@ -1,9 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { ArrowLeftIcon } from "lucide-react";
-import { useZodForm } from "../../lib/use-zod-form";
+import { useZodForm } from "../../../lib/use-zod-form";
 import { z } from "zod";
-import { useEffect, useRef } from "react";
-import { createTask } from "../../api/todoist";
+import { useEffect } from "react";
+import { createTask } from "../api";
 
 const schema = z.object({
   name: z.string().nonempty(),
