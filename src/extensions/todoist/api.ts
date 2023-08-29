@@ -1,4 +1,7 @@
 import { Body, fetch } from "@tauri-apps/api/http";
+import { getKeychainValue } from "../../toolkit/keychain";
+
+const apiKey = getKeychainValue("todoist-api-key");
 
 export interface Task {
   content: string;
@@ -9,7 +12,7 @@ export const createTask = async (task: Task) => {
   const response = await fetch("https://api.todoist.com/rest/v2/tasks", {
     method: "POST",
     headers: {
-      Authorization: `Bearer TODO: find a way to get an api token into here`,
+      Authorization: `Bearer ${await apiKey}`,
       "Content-Type": "application/json",
     },
     body: Body.json(task),

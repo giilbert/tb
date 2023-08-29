@@ -16,6 +16,8 @@ fn run_application() {
         .invoke_handler(tauri::generate_handler![
             api::applications::get_all_applications,
             api::applications::launch_application,
+            api::keychain::get_keychain_value,
+            api::keychain::set_keychain_value,
         ])
         .setup(|app| {
             let window = app.get_window("main").unwrap();
