@@ -2,7 +2,10 @@ import { Command } from "cmdk";
 import { type ComponentProps, forwardRef } from "react";
 import { cn } from "../../lib/cn";
 
-const itemClassNames = cn("px-4 py-3", "data-[selected=true]:bg-muted/90");
+const itemClassNames = cn(
+  "px-2.5 py-2 rounded-md",
+  "data-[selected=true]:bg-muted/90"
+);
 
 export const CommandItem = forwardRef<
   HTMLDivElement,

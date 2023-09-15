@@ -44,14 +44,20 @@ export const App: React.FC<{
   return (
     <AppContext.Provider value={{ extensions }}>
       <Route path="/">
-        <Command label="Search" className="grid grid-rows-[60px,auto]">
+        <Command
+          label="Search"
+          className="grid grid-rows-[48px,auto,16px] mx-2 mt-2 gap-2"
+        >
           <Command.Input
             value={value}
             onValueChange={setValue}
-            className="w-full px-4 py-3 bg-muted text-2xl outline-none"
+            className="w-full px-3 py-2 bg-muted text-lg outline-none rounded-md"
             ref={inputRef}
           />
-          <Results query={value} />
+          <div className="h-[calc(100vh-112px)]">
+            <Results query={value} />
+          </div>
+          <div className="h-8 w-full bg-slate-900"></div>
         </Command>
       </Route>
 

@@ -6,7 +6,7 @@ export const Results: React.FC<{ query: string }> = ({ query }) => {
   const extensions = useExtensions();
 
   return (
-    <Command.List className="py-2 h-[calc(100vh-60px)] overflow-y-auto">
+    <Command.List className="py-2 h-full overflow-y-auto">
       <Command.Empty className="ml-4">No results found</Command.Empty>
 
       {extensions.map(({ name, group: Group }, i) => (
