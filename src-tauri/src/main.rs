@@ -21,8 +21,8 @@ fn run_application() {
         ])
         .setup(|app| {
             let window = app.get_window("main").unwrap();
-            if cfg!(debug_assertions) {
-                let _ = window.set_always_on_top(false);
+            if cfg!(not(debug_assertions)) {
+                let _ = window.set_always_on_top(true);
             }
             Ok(())
         })

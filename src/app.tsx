@@ -15,31 +15,16 @@ export const App: React.FC<{
   useEffect(() => {
     const windowOpenHandler = () => {
       inputRef.current?.focus();
-      const root = document.getElementById("root");
-      if (!root) return;
-      root.classList.remove("opacity-0");
-      root.classList.add("opacity-100");
-      document.body.classList.add("bg-background/90");
-      document.body.classList.remove("bg-background/0");
     };
 
     const keyboardHandler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         windowCloseHandler();
-        if (!import.meta.env.DEV)
-          setTimeout(() => {
-            appWindow.hide();
-          }, 100);
+        if (!import.meta.env.DEV) appWindow.hide();
       }
     };
 
     const windowCloseHandler = () => {
-      const root = document.getElementById("root");
-      if (!root) return;
-      root.classList.remove("opacity-100");
-      root.classList.add("opacity-0");
-      document.body.classList.remove("bg-background/90");
-      document.body.classList.add("bg-background/0");
       setValue("");
     };
 

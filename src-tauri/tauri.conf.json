@@ -48,7 +48,7 @@
         "resizable": false,
         "decorations": false,
         "transparent": true,
-        "alwaysOnTop": true,
+        "alwaysOnTop": false,
         "title": "tb",
         "width": 900,
         "height": 600
