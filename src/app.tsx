@@ -59,7 +59,7 @@ export const App: React.FC<{
           <Command.Input
             value={value}
             onValueChange={setValue}
-            className="w-full p-3 border-b bg-transparent text-lg outline-none rounded-md"
+            className="w-full px-4 py-3 border-b bg-transparent text-lg outline-none rounded-md"
             placeholder="Search for something..."
             ref={inputRef}
           />
