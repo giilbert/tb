@@ -6,6 +6,7 @@
   --foreground: 210 10% 90%;
   --background: 222 64% 5%;
   --muted: 218 42.6% 10.5%;
+  --border: 218 42.6% 20.5%;
   --muted-foreground: 215 20.2% 65.1%;
 }
 
@@ -16,6 +17,6 @@ body {
 
 @layer base {
   * {
-    @apply border-muted transition-colors;
+    @apply border-border transition-colors;
   }
 }

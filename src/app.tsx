@@ -46,17 +46,15 @@ export const App: React.FC<{
   return (
     <AppContext.Provider value={{ extensions, actions, setActions }}>
       <Route path="/">
-        <Command
-          label="Search"
-          className="grid grid-rows-[48px,auto,16px] mx-2 mt-2 gap-2"
-        >
+        <Command label="Search" className="grid grid-rows-[48px,auto] gap-2">
           <Command.Input
             value={value}
             onValueChange={setValue}
-            className="w-full px-3 py-2 bg-muted text-lg outline-none rounded-md"
+            className="w-full p-3 border-b bg-transparent text-lg outline-none rounded-md"
+            placeholder="Search for something..."
             ref={inputRef}
           />
-          <div className="h-[calc(100vh-120px)]">
+          <div className="h-[calc(100vh-88px)]">
             <Results query={value} />
           </div>
         </Command>

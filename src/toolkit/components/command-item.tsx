@@ -3,7 +3,7 @@ import { type ComponentProps, forwardRef } from "react";
 import { cn } from "../../lib/cn";
 
 const itemClassNames = cn(
-  "px-2.5 py-2 rounded-md",
+  "px-2.5 py-2 rounded-md mx-1.5",
   "data-[selected=true]:bg-muted/90"
 );
 
