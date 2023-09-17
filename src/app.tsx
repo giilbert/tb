@@ -2,7 +2,7 @@ import { Fragment, createRef, useEffect, useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import { Results } from "./components/results";
 import { Command } from "cmdk";
-import { Route } from "wouter";
+import { Route, useLocation } from "wouter";
 import type { Extension } from "./toolkit";
 import { Actions, AppContext } from "./lib/context";
 import { ActionBar } from "./components/action-bar";
@@ -13,6 +13,15 @@ export const App: React.FC<{
   const [value, setValue] = useState<string>("");
   const inputRef = createRef<HTMLInputElement>();
   const [actions, setActions] = useState<Actions>({});
+  const [page] = useLocation();
+
+  useEffect(() => {
+    if (page === "/") {
+      setValue("");
+    }
+
+    inputRef.current?.focus();
+  }, [page]);
 
   useEffect(() => {
     const windowOpenHandler = () => {
