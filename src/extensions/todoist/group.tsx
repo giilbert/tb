@@ -1,15 +1,13 @@
-import { Command } from "cmdk";
 import { PlusSquareIcon } from "lucide-react";
 import { useLocation } from "wouter";
 import { CommandItem } from "../../toolkit/components/command-item";
+import { CommandGroup } from "../../toolkit/components/command-group";
 
 export const TodoistGroup: React.FC = () => {
   const [, navigate] = useLocation();
 
   return (
-    <Command.Group>
-      <h2 className="text-muted-foreground ml-4 mb-2">Todoist</h2>
-
+    <CommandGroup title="Todoist">
       <CommandItem
         className="flex gap-4"
         onSelect={() => {
@@ -20,6 +18,6 @@ export const TodoistGroup: React.FC = () => {
         Add Task
         <span className="ml-auto text-muted-foreground">Command</span>
       </CommandItem>
-    </Command.Group>
+    </CommandGroup>
   );
 };

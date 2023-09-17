@@ -3,6 +3,7 @@ import { Command } from "cmdk";
 import { Application, getAllApplications, launchApplication } from "./api";
 import { appWindow } from "@tauri-apps/api/window";
 import { CommandItem } from "../../toolkit/components/command-item";
+import { CommandGroup } from "../../toolkit/components/command-group";
 
 export const ApplicationsGroup: React.FC = () => {
   const [applications, setApplications] = useState<Application[] | null>(null);
@@ -12,9 +13,7 @@ export const ApplicationsGroup: React.FC = () => {
   }, []);
 
   return (
-    <Command.Group title="Applications">
-      <h2 className="text-muted-foreground ml-4 mb-2">Applications</h2>
-
+    <CommandGroup title="Applications">
       {!applications && (
         <Command.Loading>
           <span className="ml-4">Loading...</span>
@@ -47,6 +46,6 @@ export const ApplicationsGroup: React.FC = () => {
           )}
         </>
       )}
-    </Command.Group>
+    </CommandGroup>
   );
 };
