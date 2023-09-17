@@ -4,6 +4,7 @@ import { useZodForm } from "../../../lib/use-zod-form";
 import { z } from "zod";
 import { useEffect } from "react";
 import { createTask } from "../api";
+import { useKeyboardAction } from "../../../toolkit/hooks/use-keyboard-action";
 
 const schema = z.object({
   name: z.string().nonempty(),
@@ -11,6 +12,13 @@ const schema = z.object({
 });
 
 export const CreateTaskPage: React.FC = () => {
+  useKeyboardAction({
+    key: "Escape",
+    description: "Go back",
+    callback: () => {
+      window.history.back();
+    },
+  });
   const [, navigate] = useLocation();
   const form = useZodForm({
     schema,

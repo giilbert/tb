@@ -4,13 +4,15 @@ import { Results } from "./components/results";
 import { Command } from "cmdk";
 import { Route } from "wouter";
 import type { Extension } from "./toolkit";
-import { AppContext } from "./lib/context";
+import { Actions, AppContext } from "./lib/context";
+import { ActionBar } from "./components/action-bar";
 
 export const App: React.FC<{
   extensions: Extension[];
 }> = ({ extensions }) => {
   const [value, setValue] = useState<string>("");
   const inputRef = createRef<HTMLInputElement>();
+  const [actions, setActions] = useState<Actions>({});
 
   useEffect(() => {
     const windowOpenHandler = () => {
@@ -42,7 +44,7 @@ export const App: React.FC<{
   }, []);
 
   return (
-    <AppContext.Provider value={{ extensions }}>
+    <AppContext.Provider value={{ extensions, actions, setActions }}>
       <Route path="/">
         <Command
           label="Search"
@@ -54,10 +56,9 @@ export const App: React.FC<{
             className="w-full px-3 py-2 bg-muted text-lg outline-none rounded-md"
             ref={inputRef}
           />
-          <div className="h-[calc(100vh-112px)]">
+          <div className="h-[calc(100vh-120px)]">
             <Results query={value} />
           </div>
-          <div className="h-8 w-full bg-slate-900"></div>
         </Command>
       </Route>
 
@@ -70,6 +71,8 @@ export const App: React.FC<{
           ))}
         </Fragment>
       ))}
+
+      <ActionBar />
     </AppContext.Provider>
   );
 };
